@@ -1,11 +1,11 @@
 package com.onclass.tecnologia.infrastructure.entrypoints.handler;
 
-import com.onclass.tecnologia.domain.api.TecnologiaServicePort;
+import com.onclass.tecnologia.domain.api.CapacidadTecnologiaServicePort;
 import com.onclass.tecnologia.domain.enums.TechnicalMessage;
 import com.onclass.tecnologia.domain.exceptions.BusinessException;
 import com.onclass.tecnologia.domain.exceptions.TechnicalException;
-import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaDTO;
-import com.onclass.tecnologia.infrastructure.entrypoints.mapper.TecnologiaMapper;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.CapacidadTecnologiaDTO;
+import com.onclass.tecnologia.infrastructure.entrypoints.mapper.CapacidadTecnologiaMapper;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.APIResponse;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.Constants;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.ErrorDTO;
@@ -24,30 +24,28 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class TecnologiaHandlerImpl {
+public class CapacidadTecnologiaHandlerImpl {
 
-    private static final Logger log = LoggerFactory.getLogger(TecnologiaHandlerImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CapacidadTecnologiaHandlerImpl.class);
 
-    private final TecnologiaServicePort tecnologiaServicePort;
-    private final TecnologiaMapper tecnologiaMapper;
+    private final CapacidadTecnologiaServicePort capacidadTecnologiaServicePort;
+    private final CapacidadTecnologiaMapper capacidadTecnologiaMapper;
 
-    public TecnologiaHandlerImpl(TecnologiaServicePort tecnologiaServicePort,
-                                 TecnologiaMapper tecnologiaMapper) {
-        this.tecnologiaServicePort = tecnologiaServicePort;
-        this.tecnologiaMapper = tecnologiaMapper;
+    public CapacidadTecnologiaHandlerImpl(CapacidadTecnologiaServicePort capacidadTecnologiaServicePort,
+                                          CapacidadTecnologiaMapper capacidadTecnologiaMapper) {
+        this.capacidadTecnologiaServicePort = capacidadTecnologiaServicePort;
+        this.capacidadTecnologiaMapper = capacidadTecnologiaMapper;
     }
 
-    public Mono<ServerResponse> createTecnologia(ServerRequest request) {
+    public Mono<ServerResponse> createCapacidadTecnologias(ServerRequest request) {
         String messageId = getMessageId(request);
 
-        return request.bodyToMono(TecnologiaDTO.class)
-                .flatMap(dto -> tecnologiaServicePort
-                        .registrarTecnologia(tecnologiaMapper.toModel(dto), messageId)
-                        .doOnSuccess(saved -> log.info("Tecnología creada con messageId: {}", messageId))
-                )
-                .flatMap(saved -> ServerResponse
-                        .status(HttpStatus.CREATED)
-                        .bodyValue(TechnicalMessage.TECNOLOGIA_CREATED.getDescription()))
+        return request.bodyToFlux(CapacidadTecnologiaDTO.class)
+                .map(capacidadTecnologiaMapper::toModel)
+                .collectList()
+                .flatMapMany(list -> capacidadTecnologiaServicePort.registrarCapacidadTecnologias(list, messageId))
+                .collectList()
+                .flatMap(saved -> ServerResponse.status(HttpStatus.CREATED).bodyValue(saved))
                 .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
                 .doOnError(ex -> log.error(Constants.TECNOLOGIA_ERROR, ex))
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));

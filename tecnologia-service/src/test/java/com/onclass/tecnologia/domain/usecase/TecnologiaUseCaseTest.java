@@ -25,7 +25,6 @@ class TecnologiaUseCaseTest {
         tecnologiaPersistencePort = Mockito.mock(TecnologiaPersistencePort.class);
         tecnologiaUseCase = new TecnologiaUseCase(tecnologiaPersistencePort);
 
-        // Mock genérico: si no se especifica, se asume que el nombre NO existe
         when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
     }
 

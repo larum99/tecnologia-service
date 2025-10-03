@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TecnologiaMapper {
 
-    @Mapping(target = "id", ignore = true) // el id lo maneja la BD
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "nombre", target = "nombre")
     @Mapping(source = "descripcion", target = "descripcion")
     Tecnologia toModel(TecnologiaDTO dto);

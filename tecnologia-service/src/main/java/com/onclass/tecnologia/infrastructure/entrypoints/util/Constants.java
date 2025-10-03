@@ -7,5 +7,5 @@ public class Constants {
     public static final String X_MESSAGE_ID = "x-message-id";
     public static final String TECNOLOGIA_ERROR = "Error en Tecnología - [ERROR]";
     public static final String TECNOLOGIA_PATH = "/tecnologias";
-    public static final String TECNOLOGIA_EXIST_ALL = "/tecnologias/exist-all";
+    public static final String CAPACIDAD_TECNOLOGIA_PATH = "/capacidad-tecnologias";
 }
