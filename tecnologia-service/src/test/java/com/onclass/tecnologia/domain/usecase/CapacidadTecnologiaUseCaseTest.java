@@ -30,7 +30,7 @@ class CapacidadTecnologiaUseCaseTest {
         CapacidadTecnologia relacion2 = new CapacidadTecnologia(null, 2L, 1L);
 
         // Mock del save
-        when(persistencePort.save(any()))
+        when(persistencePort.saveCapacidadTecnologia(any()))
                 .thenAnswer(invocation -> {
                     CapacidadTecnologia arg = invocation.getArgument(0);
                     return Mono.just(new CapacidadTecnologia(1L, arg.capacidadId(), arg.tecnologiaId()));
@@ -40,7 +40,7 @@ class CapacidadTecnologiaUseCaseTest {
                 .expectNextCount(2)
                 .verifyComplete();
 
-        verify(persistencePort, times(2)).save(any());
+        verify(persistencePort, times(2)).saveCapacidadTecnologia(any());
     }
 
     @Test
@@ -48,6 +48,6 @@ class CapacidadTecnologiaUseCaseTest {
         StepVerifier.create(useCase.registrarCapacidadTecnologias(List.of(), "msg-2"))
                 .verifyComplete();
 
-        verify(persistencePort, never()).save(any());
+        verify(persistencePort, never()).saveCapacidadTecnologia(any());
     }
 }

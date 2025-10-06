@@ -40,7 +40,7 @@ public class TecnologiaUseCase implements TecnologiaServicePort {
                     if (exists) {
                         return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_ALREADY_EXISTS));
                     }
-                    return tecnologiaPersistencePort.save(tecnologia);
+                    return tecnologiaPersistencePort.saveTecnologia(tecnologia);
                 });
     }
 }

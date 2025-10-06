@@ -20,6 +20,6 @@ public class CapacidadTecnologiaUseCase implements CapacidadTecnologiaServicePor
     @Override
     public Flux<CapacidadTecnologia> registrarCapacidadTecnologias(List<CapacidadTecnologia> relaciones, String messageId) {
         return Flux.fromIterable(relaciones)
-                .flatMap(persistencePort::save);
+                .flatMap(persistencePort::saveCapacidadTecnologia);
     }
 }

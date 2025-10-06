@@ -18,7 +18,7 @@ public class TecnologiaPersistenceAdapter implements TecnologiaPersistencePort {
     }
 
     @Override
-    public Mono<Tecnologia> save(Tecnologia tecnologia) {
+    public Mono<Tecnologia> saveTecnologia(Tecnologia tecnologia) {
         return tecnologiaRepository.save(tecnologiaEntityMapper.toEntity(tecnologia))
                 .map(tecnologiaEntityMapper::toModel);
     }

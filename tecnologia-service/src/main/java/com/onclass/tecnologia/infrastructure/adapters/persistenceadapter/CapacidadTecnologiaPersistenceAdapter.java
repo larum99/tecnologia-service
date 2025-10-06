@@ -18,7 +18,7 @@ public class CapacidadTecnologiaPersistenceAdapter implements CapacidadTecnologi
     }
 
     @Override
-    public Mono<CapacidadTecnologia> save(CapacidadTecnologia relacion) {
+    public Mono<CapacidadTecnologia> saveCapacidadTecnologia(CapacidadTecnologia relacion) {
         return repository.save(mapper.toEntity(relacion))
                 .map(mapper::toModel);
     }

@@ -39,7 +39,7 @@ class TecnologiaUseCaseTest {
                 )
                 .verify();
 
-        verify(tecnologiaPersistencePort, never()).save(any());
+        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
@@ -53,7 +53,7 @@ class TecnologiaUseCaseTest {
                 )
                 .verify();
 
-        verify(tecnologiaPersistencePort, never()).save(any());
+        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
@@ -69,21 +69,21 @@ class TecnologiaUseCaseTest {
                 )
                 .verify();
 
-        verify(tecnologiaPersistencePort, never()).save(any());
+        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
     void registrarTecnologia_shouldSave_whenValidData() {
         Tecnologia tecnologia = new Tecnologia(null, "Java", "Descripcion");
 
-        when(tecnologiaPersistencePort.save(tecnologia))
+        when(tecnologiaPersistencePort.saveTecnologia(tecnologia))
                 .thenReturn(Mono.just(new Tecnologia(1L, "Java", "Descripcion")));
 
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-4"))
                 .expectNextMatches(saved -> saved.id() != null && saved.nombre().equals("Java"))
                 .verifyComplete();
 
-        verify(tecnologiaPersistencePort, times(1)).save(tecnologia);
+        verify(tecnologiaPersistencePort, times(1)).saveTecnologia(tecnologia);
     }
 
     @Test
@@ -98,7 +98,7 @@ class TecnologiaUseCaseTest {
                 )
                 .verify();
 
-        verify(tecnologiaPersistencePort, never()).save(any());
+        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
@@ -113,6 +113,6 @@ class TecnologiaUseCaseTest {
                 )
                 .verify();
 
-        verify(tecnologiaPersistencePort, never()).save(any());
+        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 }

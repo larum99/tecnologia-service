@@ -4,6 +4,6 @@ import com.onclass.tecnologia.domain.model.Tecnologia;
 import reactor.core.publisher.Mono;
 
 public interface TecnologiaPersistencePort {
-    Mono<Tecnologia> save(Tecnologia tecnologia);
+    Mono<Tecnologia> saveTecnologia(Tecnologia tecnologia);
     Mono<Boolean> existByNombre(String nombre);
 }
