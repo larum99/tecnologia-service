@@ -26,7 +26,6 @@ class CapacidadTecnologiaUseCaseTest {
         useCase = new CapacidadTecnologiaUseCase(persistencePort);
     }
 
-    // ===================== EXISTENTES =====================
     @Test
     void registrarCapacidadTecnologias_shouldSaveAllRelaciones() {
         CapacidadTecnologia relacion1 = new CapacidadTecnologia(null, 1L, 1L);
@@ -53,7 +52,6 @@ class CapacidadTecnologiaUseCaseTest {
         verify(persistencePort, never()).saveCapacidadTecnologia(any());
     }
 
-    // ===================== NUEVOS =====================
     @Test
     void listarTecnologiasPorCapacidad_shouldReturnTecnologias() {
         Long capacidadId = 1L;
