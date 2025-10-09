@@ -51,6 +51,19 @@ public class CapacidadTecnologiaHandlerImpl {
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));
     }
 
+    public Mono<ServerResponse> listTecnologiasByCapacidad(ServerRequest request) {
+        String messageId = getMessageId(request);
+        Long capacidadId = Long.valueOf(request.pathVariable("capacidadId"));
+
+        return capacidadTecnologiaServicePort
+                .listarTecnologiasPorCapacidad(capacidadId)
+                .collectList()
+                .flatMap(list -> ServerResponse.ok().bodyValue(list))
+                .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
+                .doOnError(ex -> log.error("Error al listar tecnologías para capacidad {}", capacidadId, ex))
+                .onErrorResume(ex -> buildErrorResponse(messageId, ex));
+    }
+
     private Mono<ServerResponse> buildErrorResponse(String messageId, Throwable ex) {
         if (ex instanceof BusinessException bex) {
             return buildError(HttpStatus.BAD_REQUEST, messageId, bex.getTechnicalMessage());

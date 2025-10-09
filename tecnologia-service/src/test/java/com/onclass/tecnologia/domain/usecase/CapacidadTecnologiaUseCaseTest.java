@@ -2,9 +2,11 @@ package com.onclass.tecnologia.domain.usecase;
 
 import com.onclass.tecnologia.domain.model.CapacidadTecnologia;
 import com.onclass.tecnologia.domain.spi.CapacidadTecnologiaPersistencePort;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaSummaryDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -24,12 +26,12 @@ class CapacidadTecnologiaUseCaseTest {
         useCase = new CapacidadTecnologiaUseCase(persistencePort);
     }
 
+    // ===================== EXISTENTES =====================
     @Test
     void registrarCapacidadTecnologias_shouldSaveAllRelaciones() {
         CapacidadTecnologia relacion1 = new CapacidadTecnologia(null, 1L, 1L);
         CapacidadTecnologia relacion2 = new CapacidadTecnologia(null, 2L, 1L);
 
-        // Mock del save
         when(persistencePort.saveCapacidadTecnologia(any()))
                 .thenAnswer(invocation -> {
                     CapacidadTecnologia arg = invocation.getArgument(0);
@@ -49,5 +51,35 @@ class CapacidadTecnologiaUseCaseTest {
                 .verifyComplete();
 
         verify(persistencePort, never()).saveCapacidadTecnologia(any());
+    }
+
+    // ===================== NUEVOS =====================
+    @Test
+    void listarTecnologiasPorCapacidad_shouldReturnTecnologias() {
+        Long capacidadId = 1L;
+        TecnologiaSummaryDTO t1 = new TecnologiaSummaryDTO(1L, "Java");
+        TecnologiaSummaryDTO t2 = new TecnologiaSummaryDTO(2L, "Spring");
+
+        when(persistencePort.findTecnologiasByCapacidadId(capacidadId))
+                .thenReturn(Flux.just(t1, t2));
+
+        StepVerifier.create(useCase.listarTecnologiasPorCapacidad(capacidadId))
+                .expectNext(t1, t2)
+                .verifyComplete();
+
+        verify(persistencePort).findTecnologiasByCapacidadId(capacidadId);
+    }
+
+    @Test
+    void listarTecnologiasPorCapacidad_shouldReturnEmptyFluxIfNone() {
+        Long capacidadId = 2L;
+
+        when(persistencePort.findTecnologiasByCapacidadId(capacidadId))
+                .thenReturn(Flux.empty());
+
+        StepVerifier.create(useCase.listarTecnologiasPorCapacidad(capacidadId))
+                .verifyComplete();
+
+        verify(persistencePort).findTecnologiasByCapacidadId(capacidadId);
     }
 }

@@ -17,6 +17,8 @@ public final class ApiConstants {
     public static final String REQUEST_BODY_DESCRIPTION = "Datos de la nueva tecnología";
     public static final String CREATE_CAPACIDAD_TECNOLOGIA_OPERATION_ID = "createCapacidadTecnologia";
     public static final String CREATE_CAPACIDAD_TECNOLOGIA_SUMMARY = "Crear nuevas capacidades para tecnologías";
+    public static final String GET_CAPACIDAD_TECNOLOGIA_OPERATION_ID = "getTecnologias";
+    public static final String GET_CAPACIDAD_TECNOLOGIA_SUMMARY = "Obtener el listado de tecnologias por capacidad";
 
     // Respuestas
     public static final String RESPONSE_201 = "Tecnología creada exitosamente";
@@ -30,6 +32,7 @@ public final class ApiConstants {
     public static final String HTTP_CREATED = "201";
     public static final String HTTP_BAD_REQUEST = "400";
     public static final String HTTP_INTERNAL_ERROR = "500";
+    public static final String HTTP_OK = "200";
 
     // Request body
     public static final String REQUEST_BODY_CAPACIDAD_TECNOLOGIA_DESCRIPTION = "Datos de la capacidad tecnológica";
