@@ -33,8 +33,10 @@ public class UseCasesConfig {
     @Bean
     public CapacidadTecnologiaPersistencePort capacidadTecnologiaPersistencePort(
             CapacidadTecnologiaRepository repository,
-            CapacidadTecnologiaEntityMapper mapper) {
-        return new CapacidadTecnologiaPersistenceAdapter(repository, mapper);
+            CapacidadTecnologiaEntityMapper capacidadMapper,
+            TecnologiaEntityMapper tecnologiaMapper // <-- agregar
+    ) {
+        return new CapacidadTecnologiaPersistenceAdapter(repository, capacidadMapper, tecnologiaMapper);
     }
 
     @Bean

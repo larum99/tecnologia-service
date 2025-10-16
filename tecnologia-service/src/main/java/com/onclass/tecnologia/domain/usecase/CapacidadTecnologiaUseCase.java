@@ -2,8 +2,8 @@ package com.onclass.tecnologia.domain.usecase;
 
 import com.onclass.tecnologia.domain.api.CapacidadTecnologiaServicePort;
 import com.onclass.tecnologia.domain.model.CapacidadTecnologia;
+import com.onclass.tecnologia.domain.model.Tecnologia;
 import com.onclass.tecnologia.domain.spi.CapacidadTecnologiaPersistencePort;
-import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaSummaryDTO;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -25,7 +25,7 @@ public class CapacidadTecnologiaUseCase implements CapacidadTecnologiaServicePor
     }
 
     @Override
-    public Flux<TecnologiaSummaryDTO> listarTecnologiasPorCapacidad(Long capacidadId) {
+    public Flux<Tecnologia> listarTecnologiasPorCapacidad(Long capacidadId) {
         return persistencePort.findTecnologiasByCapacidadId(capacidadId);
     }
 }
