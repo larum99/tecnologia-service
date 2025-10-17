@@ -11,6 +11,7 @@ import com.onclass.tecnologia.infrastructure.entrypoints.util.Constants;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -63,6 +64,46 @@ public class CapacidadTecnologiaHandlerImpl {
                 .doOnError(ex -> log.error("Error al listar tecnologías para capacidad {}", capacidadId, ex))
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));
     }
+
+    public Mono<ServerResponse> findTecnologiasIdsByCapacidades(ServerRequest request) {
+        String messageId = getMessageId(request);
+
+        return request.bodyToMono(new ParameterizedTypeReference<List<Long>>() {})
+                .flatMapMany(capacidadIds ->
+                        capacidadTecnologiaServicePort.findTecnologiaIdsByCapacidades(capacidadIds)
+                )
+                .collectList()
+                .flatMap(ids -> ServerResponse.ok().bodyValue(ids))
+                .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
+                .doOnError(ex -> log.error("Error al obtener IDs de tecnologías por capacidades", ex))
+                .onErrorResume(ex -> buildErrorResponse(messageId, ex));
+    }
+
+    public Mono<ServerResponse> deleteTecnologiasByCapacidades(ServerRequest request) {
+        String messageId = getMessageId(request);
+
+        return request.bodyToMono(new ParameterizedTypeReference<List<Long>>() {})
+                .flatMap(capacidadIds ->
+                        capacidadTecnologiaServicePort.deleteTecnologiasByCapacidades(capacidadIds)
+                                .then(ServerResponse.noContent().build())
+                )
+                .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
+                .doOnError(ex -> log.error("Error al eliminar tecnologías por capacidades", ex))
+                .onErrorResume(ex -> buildErrorResponse(messageId, ex));
+    }
+
+    public Mono<ServerResponse> countCapacidadesByTecnologiaId(ServerRequest request) {
+        String messageId = getMessageId(request);
+        Long tecnologiaId = Long.valueOf(request.pathVariable("tecnologiaId"));
+
+        return capacidadTecnologiaServicePort.countCapacidadesByTecnologiaId(tecnologiaId)
+                .switchIfEmpty(Mono.just(0L))
+                .flatMap(count -> ServerResponse.ok().bodyValue(count))
+                .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
+                .doOnError(ex -> log.error("Error al contar capacidades por tecnología {}", tecnologiaId, ex))
+                .onErrorResume(ex -> buildErrorResponse(messageId, ex));
+    }
+
 
     private Mono<ServerResponse> buildErrorResponse(String messageId, Throwable ex) {
         if (ex instanceof BusinessException bex) {

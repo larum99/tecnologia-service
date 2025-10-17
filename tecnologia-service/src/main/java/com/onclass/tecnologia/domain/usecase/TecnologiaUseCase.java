@@ -41,4 +41,16 @@ public class TecnologiaUseCase implements TecnologiaServicePort {
                     return tecnologiaPersistencePort.saveTecnologia(tecnologia);
                 });
     }
+
+    @Override
+    public Mono<Void> eliminarTecnologia(Long tecnologiaId, String messageId) {
+        if (tecnologiaId == null || tecnologiaId <= 0) {
+            return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_ID_INVALID));
+        }
+
+        return tecnologiaPersistencePort.existsById(tecnologiaId)
+                .switchIfEmpty(Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_NOT_FOUND)))
+                .flatMap(tecnologia -> tecnologiaPersistencePort.deleteById(tecnologiaId))
+                .then();
+    }
 }

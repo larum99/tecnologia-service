@@ -9,6 +9,8 @@ import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.reposit
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 public class CapacidadTecnologiaPersistenceAdapter implements CapacidadTecnologiaPersistencePort {
 
     private final CapacidadTecnologiaRepository repository;
@@ -34,7 +36,21 @@ public class CapacidadTecnologiaPersistenceAdapter implements CapacidadTecnologi
     @Override
     public Flux<Tecnologia> findTecnologiasByCapacidadId(Long capacidadId) {
         return repository.findTecnologiasByCapacidadId(capacidadId)
-                .map(tecnologiaMapper::toModel); // ahora funciona
+                .map(tecnologiaMapper::toModel);
     }
 
+    @Override
+    public Mono<Void> deleteByCapacidadIds(List<Long> capacidadIds) {
+        return repository.deleteByCapacidadIds(capacidadIds);
+    }
+
+    @Override
+    public Flux<Long> findTecnologiaIdsByCapacidades(List<Long> capacidadIds) {
+        return repository.findTecnologiaIdsByCapacidades(capacidadIds);
+    }
+
+    @Override
+    public Mono<Long> countCapacidadesByTecnologiaId(Long tecnologiaId) {
+        return repository.countCapacidadesByTecnologiaId(tecnologiaId);
+    }
 }

@@ -53,6 +53,17 @@ public class TecnologiaHandlerImpl {
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));
     }
 
+    public Mono<ServerResponse> deleteTecnologia(ServerRequest request) {
+        String messageId = getMessageId(request);
+        Long tecnologiaId = Long.valueOf(request.pathVariable("id"));
+
+        return tecnologiaServicePort.eliminarTecnologia(tecnologiaId, messageId)
+                .then(ServerResponse.noContent().build())
+                .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
+                .doOnError(ex -> log.error("Error al eliminar tecnología {}", tecnologiaId, ex))
+                .onErrorResume(ex -> buildErrorResponse(messageId, ex));
+    }
+
     private Mono<ServerResponse> buildErrorResponse(String messageId, Throwable ex) {
         if (ex instanceof BusinessException bex) {
             return buildError(HttpStatus.BAD_REQUEST, messageId, bex.getTechnicalMessage());

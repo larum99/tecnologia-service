@@ -39,4 +39,34 @@ public class RouterRest {
         return route(GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/{capacidadId}/tecnologias"),
                 handler::listTecnologiasByCapacidad);
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> deleteTecnologiasByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
+        return route()
+                .DELETE(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/by-capacidades", handler::deleteTecnologiasByCapacidades)
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> findTecnologiasIdsByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
+        return route()
+                .POST(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/tecnologias/by-capacidades",
+                        handler::findTecnologiasIdsByCapacidades)
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> deleteTecnologiaRoute(TecnologiaHandlerImpl handler) {
+        return route()
+                .DELETE(Constants.TECNOLOGIA_PATH + "/{id}", handler::deleteTecnologia)
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> countCapacidadesByTecnologiaRoute(CapacidadTecnologiaHandlerImpl handler) {
+        return route()
+                .GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/count/by-tecnologia/{tecnologiaId}",
+                        handler::countCapacidadesByTecnologiaId)
+                .build();
+    }
 }

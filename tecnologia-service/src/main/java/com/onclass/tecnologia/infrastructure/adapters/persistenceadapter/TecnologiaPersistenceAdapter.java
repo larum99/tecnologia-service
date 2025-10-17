@@ -30,4 +30,16 @@ public class TecnologiaPersistenceAdapter implements TecnologiaPersistencePort {
                 .map(t -> true)
                 .defaultIfEmpty(false);
     }
+
+    @Override
+    public Mono<Void> deleteById(Long tecnologiaId) {
+        return tecnologiaRepository.deleteById(tecnologiaId);
+    }
+
+    @Override
+    public Mono<Boolean> existsById(Long tecnologiaId) {
+        return tecnologiaRepository.findById(tecnologiaId)
+                .map(t -> true)
+                .defaultIfEmpty(false);
+    }
 }

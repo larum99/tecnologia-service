@@ -12,6 +12,11 @@ public enum TechnicalMessage {
     TECNOLOGIA_DESCRIPCION_REQUIRED("400-4","La descripción de la tecnología es obligatoria","descripcion"),
     TECNOLOGIA_NOMBRE_TOO_LONG("400-5","El nombre de la tecnología supera los 50 caracteres","nombre"),
     TECNOLOGIA_DESCRIPCION_TOO_LONG("400-6","La descripción de la tecnología supera los 90 caracteres","descripcion"),
+
+    // Nuevos mensajes para eliminación
+    TECNOLOGIA_ID_INVALID("400-7", "El ID de la tecnología es inválido", "id"),
+    TECNOLOGIA_NOT_FOUND("404-1", "La tecnología no existe", "id"),
+
     TECNOLOGIA_CREATED("201", "Tecnología creada exitosamente", "");
 
     private final String code;

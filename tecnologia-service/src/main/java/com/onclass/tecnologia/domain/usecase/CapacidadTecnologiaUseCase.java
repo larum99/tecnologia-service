@@ -6,6 +6,7 @@ import com.onclass.tecnologia.domain.model.Tecnologia;
 import com.onclass.tecnologia.domain.spi.CapacidadTecnologiaPersistencePort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -27,5 +28,20 @@ public class CapacidadTecnologiaUseCase implements CapacidadTecnologiaServicePor
     @Override
     public Flux<Tecnologia> listarTecnologiasPorCapacidad(Long capacidadId) {
         return persistencePort.findTecnologiasByCapacidadId(capacidadId);
+    }
+
+    @Override
+    public Mono<Void> deleteTecnologiasByCapacidades(List<Long> capacidadIds) {
+        return persistencePort.deleteByCapacidadIds(capacidadIds);
+    }
+
+    @Override
+    public Flux<Long> findTecnologiaIdsByCapacidades(List<Long> capacidadIds) {
+        return persistencePort.findTecnologiaIdsByCapacidades(capacidadIds);
+    }
+
+    @Override
+    public Mono<Long> countCapacidadesByTecnologiaId(Long tecnologiaId) {
+        return persistencePort.countCapacidadesByTecnologiaId(tecnologiaId);
     }
 }
