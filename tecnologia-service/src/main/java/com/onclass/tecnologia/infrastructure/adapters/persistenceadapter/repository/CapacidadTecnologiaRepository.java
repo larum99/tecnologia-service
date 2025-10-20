@@ -2,7 +2,6 @@ package com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.reposi
 
 import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.entity.CapacidadTecnologiaEntity;
 import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.entity.TecnologiaEntity;
-import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaSummaryDTO;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

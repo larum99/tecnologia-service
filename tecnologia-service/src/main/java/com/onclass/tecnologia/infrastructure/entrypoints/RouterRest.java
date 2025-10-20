@@ -1,8 +1,6 @@
 package com.onclass.tecnologia.infrastructure.entrypoints;
 
-import com.onclass.tecnologia.application.configSwagger.CapacidadTecnologiaApiDoc;
-import com.onclass.tecnologia.application.configSwagger.CapacidadTecnologiaGetApiDoc;
-import com.onclass.tecnologia.application.configSwagger.TecnologiaApiDoc;
+import com.onclass.tecnologia.application.configSwagger.*;
 import com.onclass.tecnologia.infrastructure.entrypoints.handler.CapacidadTecnologiaHandlerImpl;
 import com.onclass.tecnologia.infrastructure.entrypoints.handler.TecnologiaHandlerImpl;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.Constants;
@@ -41,6 +39,7 @@ public class RouterRest {
     }
 
     @Bean
+    @CapacidadTecnologiaDeleteApiDoc
     public RouterFunction<ServerResponse> deleteTecnologiasByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
                 .DELETE(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/by-capacidades", handler::deleteTecnologiasByCapacidades)
@@ -48,6 +47,7 @@ public class RouterRest {
     }
 
     @Bean
+    @CapacidadTecnologiaFindIdsApiDoc
     public RouterFunction<ServerResponse> findTecnologiasIdsByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
                 .POST(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/tecnologias/by-capacidades",
@@ -56,6 +56,7 @@ public class RouterRest {
     }
 
     @Bean
+    @TecnologiaDeleteApiDoc
     public RouterFunction<ServerResponse> deleteTecnologiaRoute(TecnologiaHandlerImpl handler) {
         return route()
                 .DELETE(Constants.TECNOLOGIA_PATH + "/{id}", handler::deleteTecnologia)
@@ -63,6 +64,7 @@ public class RouterRest {
     }
 
     @Bean
+    @CapacidadTecnologiaCountByTecnologiaApiDoc
     public RouterFunction<ServerResponse> countCapacidadesByTecnologiaRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
                 .GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/count/by-tecnologia/{tecnologiaId}",
