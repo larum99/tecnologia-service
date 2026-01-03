@@ -17,10 +17,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class APIResponse {
-    private String code;          // Código del mensaje técnico
-    private String message;       // Mensaje técnico
-    private String identifier;    // messageId
-    private String date;          // Fecha/hora
-    private TecnologiaDTO data;   // Objeto de respuesta (cuando aplique)
-    private List<ErrorDTO> errors; // Lista de errores
+    private String code;
+    private String message;
+    private String identifier;
+    private String date;
+    private TecnologiaDTO data;
+    private List<ErrorDTO> errors;
 }

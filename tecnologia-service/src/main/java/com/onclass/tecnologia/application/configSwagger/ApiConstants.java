@@ -42,4 +42,132 @@ public final class ApiConstants {
 
     // Request body
     public static final String REQUEST_BODY_CAPACIDAD_TECNOLOGIA_DESCRIPTION = "Datos de la capacidad tecnológica";
+
+    // Bean methods
+    public static final String BEAN_METHOD_CREATE_CAPACIDAD_TECNOLOGIAS = "createCapacidadTecnologias";
+
+    // Schema types
+    public static final String SCHEMA_TYPE_STRING = "string";
+
+    // Example names
+    public static final String EXAMPLE_NAME_CAPACIDAD_TECNOLOGIA = "Ejemplo CapacidadTecnologia";
+
+    // Paths adicionales
+    public static final String PATH_COUNT_BY_TECNOLOGIA = "/count/by-tecnologia/{tecnologiaId}";
+
+    // Operation IDs adicionales
+    public static final String COUNT_CAPACIDADES_BY_TECNOLOGIA_OPERATION_ID = "countCapacidadesByTecnologiaId";
+
+    // Summaries adicionales
+    public static final String COUNT_CAPACIDADES_BY_TECNOLOGIA_SUMMARY = "Contar capacidades asociadas a una tecnología";
+
+    // Descriptions adicionales
+    public static final String COUNT_CAPACIDADES_BY_TECNOLOGIA_DESCRIPTION = "Obtiene el número de capacidades relacionadas con una tecnología específica.";
+
+    // Bean methods adicionales
+    public static final String BEAN_METHOD_COUNT_CAPACIDADES_BY_TECNOLOGIA = "countCapacidadesByTecnologiaId";
+
+    // Parameter names
+    public static final String PARAM_TECNOLOGIA_ID = "tecnologiaId";
+
+    // Parameter descriptions
+    public static final String PARAM_TECNOLOGIA_ID_DESC = "ID de la tecnología";
+
+    // Response descriptions adicionales
+    public static final String RESPONSE_COUNT_200 = "Conteo devuelto correctamente.";
+    public static final String RESPONSE_COUNT_400 = "Solicitud inválida.";
+    public static final String RESPONSE_COUNT_500 = "Error interno del servidor.";
+
+    // Paths adicionales para delete
+    public static final String PATH_BY_CAPACIDADES = "/by-capacidades";
+
+    // Operation IDs para delete
+    public static final String DELETE_TECNOLOGIAS_BY_CAPACIDADES_OPERATION_ID = "deleteTecnologiasByCapacidades";
+
+    // Summaries para delete
+    public static final String DELETE_TECNOLOGIAS_BY_CAPACIDADES_SUMMARY = "Eliminar tecnologías asociadas a una lista de capacidades";
+
+    // Descriptions para delete
+    public static final String DELETE_TECNOLOGIAS_BY_CAPACIDADES_DESCRIPTION = "Elimina todas las relaciones capacidad-tecnología asociadas a los IDs de capacidades proporcionados.";
+
+    // Bean methods para delete
+    public static final String BEAN_METHOD_DELETE_TECNOLOGIAS_BY_CAPACIDADES = "deleteTecnologiasByCapacidades";
+
+    // Request body descriptions para delete
+    public static final String REQUEST_BODY_DELETE_CAPACIDADES_DESCRIPTION = "Lista de IDs de capacidades cuyas relaciones con tecnologías deben eliminarse.";
+
+    // Example names para delete
+    public static final String EXAMPLE_NAME_IDS_CAPACIDADES = "Ejemplo IDs capacidades";
+
+    // Example values para delete
+    public static final String EXAMPLE_VALUE_IDS_CAPACIDADES = "[1, 2, 3]";
+
+    // Response descriptions para delete
+    public static final String RESPONSE_DELETE_204 = "Relaciones eliminadas correctamente.";
+    public static final String RESPONSE_DELETE_400 = "Solicitud inválida.";
+    public static final String RESPONSE_DELETE_500 = "Error interno del servidor.";
+
+    // Paths adicionales para find
+    public static final String PATH_TECNOLOGIAS_BY_CAPACIDADES = "/tecnologias/by-capacidades";
+
+    // Operation IDs para find
+    public static final String FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_OPERATION_ID = "findTecnologiasIdsByCapacidades";
+
+    // Summaries para find
+    public static final String FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_SUMMARY = "Obtener IDs de tecnologías por capacidades";
+
+    // Descriptions para find
+    public static final String FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_DESCRIPTION = "Retorna los IDs de tecnologías asociados a una lista de capacidades.";
+
+    // Bean methods para find
+    public static final String BEAN_METHOD_FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES = "findTecnologiasIdsByCapacidades";
+
+    // Request body descriptions para find
+    public static final String REQUEST_BODY_FIND_IDS_CAPACIDADES_DESCRIPTION = "Lista de IDs de capacidades.";
+
+    // Response descriptions para find
+    public static final String RESPONSE_FIND_200 = "Lista de IDs de tecnologías retornada correctamente.";
+    public static final String RESPONSE_FIND_400 = "Solicitud inválida.";
+    public static final String RESPONSE_FIND_500 = "Error interno del servidor.";
+
+    // Paths adicionales para get
+    public static final String PATH_CAPACIDAD_TECNOLOGIAS = "/{capacidadId}/tecnologias";
+
+    // Descriptions para get
+    public static final String GET_CAPACIDAD_TECNOLOGIA_DESCRIPTION = "Obtiene todas las tecnologías asociadas a una capacidad específica.";
+
+    // Bean methods para get
+    public static final String BEAN_METHOD_LIST_TECNOLOGIAS_BY_CAPACIDAD = "listTecnologiasByCapacidad";
+
+    // Parameter names para get
+    public static final String PARAM_CAPACIDAD_ID = "capacidadId";
+
+    // Parameter descriptions para get
+    public static final String PARAM_CAPACIDAD_ID_DESC = "ID de la capacidad";
+
+    // Response descriptions para get
+    public static final String RESPONSE_GET_200 = "Listado de tecnologías devuelto correctamente";
+    public static final String RESPONSE_GET_400 = "Parámetros inválidos";
+    public static final String RESPONSE_GET_500 = "Error interno del servidor";
+
+    // Bean methods para tecnologia
+    public static final String BEAN_METHOD_CREATE_TECNOLOGIA = "createTecnologia";
+
+    // Example names para tecnologia
+    public static final String EXAMPLE_NAME_TECNOLOGIA = "Ejemplo Tecnologia";
+
+    // Paths adicionales para tecnologia delete
+    public static final String PATH_TECNOLOGIA_ID = "/{id}";
+
+    // Descriptions para tecnologia delete
+    public static final String DELETE_TECNOLOGIA_DESCRIPTION = "Elimina una tecnología existente por su ID.";
+
+    // Bean methods para tecnologia delete
+    public static final String BEAN_METHOD_DELETE_TECNOLOGIA = "deleteTecnologia";
+
+    // Parameter names para tecnologia delete
+    public static final String PARAM_ID = "id";
+
+    // Parameter descriptions para tecnologia delete
+    public static final String PARAM_ID_DESC = "ID de la tecnología a eliminar";
 }

@@ -12,13 +12,13 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 @RouterOperation(
-        path = ApiConstants.PATH_TECNOLOGIAS + "/{id}",
+        path = ApiConstants.PATH_TECNOLOGIAS + ApiConstants.PATH_TECNOLOGIA_ID,
         beanClass = TecnologiaHandlerImpl.class,
-        beanMethod = "deleteTecnologia",
+        beanMethod = ApiConstants.BEAN_METHOD_DELETE_TECNOLOGIA,
         operation = @Operation(
                 operationId = ApiConstants.DELETE_TECNOLOGIA_OPERATION_ID,
                 summary = ApiConstants.DELETE_TECNOLOGIA_SUMMARY,
-                description = "Elimina una tecnología existente por su ID.",
+                description = ApiConstants.DELETE_TECNOLOGIA_DESCRIPTION,
                 parameters = {
                         @Parameter(
                                 name = ApiConstants.HEADER_X_MESSAGE_ID,
@@ -27,10 +27,10 @@ import java.lang.annotation.RetentionPolicy;
                                 description = ApiConstants.HEADER_X_MESSAGE_ID_DESC
                         ),
                         @Parameter(
-                                name = "id",
+                                name = ApiConstants.PARAM_ID,
                                 in = ParameterIn.PATH,
                                 required = true,
-                                description = "ID de la tecnología a eliminar"
+                                description = ApiConstants.PARAM_ID_DESC
                         )
                 },
                 responses = {

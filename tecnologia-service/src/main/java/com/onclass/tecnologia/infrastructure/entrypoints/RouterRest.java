@@ -34,7 +34,7 @@ public class RouterRest {
     @Bean
     @CapacidadTecnologiaGetApiDoc
     public RouterFunction<ServerResponse> getTecnologiasByCapacidad(CapacidadTecnologiaHandlerImpl handler) {
-        return route(GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/{capacidadId}/tecnologias"),
+        return route(GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + Constants.PATH_CAPACIDAD_TECNOLOGIAS),
                 handler::listTecnologiasByCapacidad);
     }
 
@@ -42,7 +42,7 @@ public class RouterRest {
     @CapacidadTecnologiaDeleteApiDoc
     public RouterFunction<ServerResponse> deleteTecnologiasByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
-                .DELETE(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/by-capacidades", handler::deleteTecnologiasByCapacidades)
+                .DELETE(Constants.CAPACIDAD_TECNOLOGIA_PATH + Constants.PATH_BY_CAPACIDADES, handler::deleteTecnologiasByCapacidades)
                 .build();
     }
 
@@ -50,7 +50,7 @@ public class RouterRest {
     @CapacidadTecnologiaFindIdsApiDoc
     public RouterFunction<ServerResponse> findTecnologiasIdsByCapacidadesRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
-                .POST(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/tecnologias/by-capacidades",
+                .POST(Constants.CAPACIDAD_TECNOLOGIA_PATH + Constants.PATH_TECNOLOGIAS_BY_CAPACIDADES,
                         handler::findTecnologiasIdsByCapacidades)
                 .build();
     }
@@ -59,7 +59,7 @@ public class RouterRest {
     @TecnologiaDeleteApiDoc
     public RouterFunction<ServerResponse> deleteTecnologiaRoute(TecnologiaHandlerImpl handler) {
         return route()
-                .DELETE(Constants.TECNOLOGIA_PATH + "/{id}", handler::deleteTecnologia)
+                .DELETE(Constants.TECNOLOGIA_PATH + Constants.PATH_ID, handler::deleteTecnologia)
                 .build();
     }
 
@@ -67,7 +67,7 @@ public class RouterRest {
     @CapacidadTecnologiaCountByTecnologiaApiDoc
     public RouterFunction<ServerResponse> countCapacidadesByTecnologiaRoute(CapacidadTecnologiaHandlerImpl handler) {
         return route()
-                .GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + "/count/by-tecnologia/{tecnologiaId}",
+                .GET(Constants.CAPACIDAD_TECNOLOGIA_PATH + Constants.PATH_COUNT_BY_TECNOLOGIA,
                         handler::countCapacidadesByTecnologiaId)
                 .build();
     }

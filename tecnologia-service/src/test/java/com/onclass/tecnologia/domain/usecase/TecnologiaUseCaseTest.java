@@ -24,13 +24,14 @@ class TecnologiaUseCaseTest {
     void setUp() {
         tecnologiaPersistencePort = Mockito.mock(TecnologiaPersistencePort.class);
         tecnologiaUseCase = new TecnologiaUseCase(tecnologiaPersistencePort);
-
-        when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
     }
 
     @Test
     void registrarTecnologia_shouldReturnError_whenNombreIsBlank() {
         Tecnologia tecnologia = new Tecnologia(null, "  ", "Descripcion");
+
+        when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.saveTecnologia(any())).thenReturn(Mono.empty());
 
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-1"))
                 .expectErrorMatches(throwable ->
@@ -38,13 +39,14 @@ class TecnologiaUseCaseTest {
                                 ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_NOMBRE_REQUIRED
                 )
                 .verify();
-
-        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
     void registrarTecnologia_shouldReturnError_whenDescripcionIsBlank() {
         Tecnologia tecnologia = new Tecnologia(null, "Java", "  ");
+
+        when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.saveTecnologia(any())).thenReturn(Mono.empty());
 
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-2"))
                 .expectErrorMatches(throwable ->
@@ -52,8 +54,6 @@ class TecnologiaUseCaseTest {
                                 ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_DESCRIPCION_REQUIRED
                 )
                 .verify();
-
-        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
@@ -61,6 +61,7 @@ class TecnologiaUseCaseTest {
         Tecnologia tecnologia = new Tecnologia(null, "Java", "Descripcion");
 
         when(tecnologiaPersistencePort.existByNombre("Java")).thenReturn(Mono.just(true));
+        when(tecnologiaPersistencePort.saveTecnologia(any())).thenReturn(Mono.empty());
 
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-3"))
                 .expectErrorMatches(throwable ->
@@ -68,14 +69,13 @@ class TecnologiaUseCaseTest {
                                 ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_ALREADY_EXISTS
                 )
                 .verify();
-
-        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
     void registrarTecnologia_shouldSave_whenValidData() {
         Tecnologia tecnologia = new Tecnologia(null, "Java", "Descripcion");
 
+        when(tecnologiaPersistencePort.existByNombre("Java")).thenReturn(Mono.just(false));
         when(tecnologiaPersistencePort.saveTecnologia(tecnologia))
                 .thenReturn(Mono.just(new Tecnologia(1L, "Java", "Descripcion")));
 
@@ -91,14 +91,15 @@ class TecnologiaUseCaseTest {
         String nombreLargo = "A".repeat(Constants.MAX_NOMBRE_TECNOLOGIA + 1);
         Tecnologia tecnologia = new Tecnologia(null, nombreLargo, "Descripcion");
 
+        when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.saveTecnologia(any())).thenReturn(Mono.empty());
+
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-5"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof BusinessException &&
                                 ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_NOMBRE_TOO_LONG
                 )
                 .verify();
-
-        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
     }
 
     @Test
@@ -106,13 +107,64 @@ class TecnologiaUseCaseTest {
         String descripcionLarga = "A".repeat(Constants.MAX_DESCRIPCION_TECNOLOGIA + 1);
         Tecnologia tecnologia = new Tecnologia(null, "Java", descripcionLarga);
 
+        when(tecnologiaPersistencePort.existByNombre(anyString())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.saveTecnologia(any())).thenReturn(Mono.empty());
+
         StepVerifier.create(tecnologiaUseCase.registrarTecnologia(tecnologia, "msg-6"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof BusinessException &&
                                 ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_DESCRIPCION_TOO_LONG
                 )
                 .verify();
+    }
 
-        verify(tecnologiaPersistencePort, never()).saveTecnologia(any());
+    @Test
+    void eliminarTecnologia_shouldReturnError_whenIdIsNull() {
+        when(tecnologiaPersistencePort.existsById(any())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.deleteById(any())).thenReturn(Mono.empty());
+
+        StepVerifier.create(tecnologiaUseCase.eliminarTecnologia(null, "msg-7"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof BusinessException &&
+                                ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_ID_INVALID
+                )
+                .verify();
+    }
+
+    @Test
+    void eliminarTecnologia_shouldReturnError_whenIdIsInvalid() {
+        when(tecnologiaPersistencePort.existsById(any())).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.deleteById(any())).thenReturn(Mono.empty());
+
+        StepVerifier.create(tecnologiaUseCase.eliminarTecnologia(0L, "msg-8"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof BusinessException &&
+                                ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_ID_INVALID
+                )
+                .verify();
+    }
+
+    @Test
+    void eliminarTecnologia_shouldReturnError_whenTecnologiaNotFound() {
+        when(tecnologiaPersistencePort.existsById(1L)).thenReturn(Mono.just(false));
+        when(tecnologiaPersistencePort.deleteById(any())).thenReturn(Mono.empty());
+
+        StepVerifier.create(tecnologiaUseCase.eliminarTecnologia(1L, "msg-9"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof BusinessException &&
+                                ((BusinessException) throwable).getTechnicalMessage() == TechnicalMessage.TECNOLOGIA_NOT_FOUND
+                )
+                .verify();
+    }
+
+    @Test
+    void eliminarTecnologia_shouldDelete_whenValidId() {
+        when(tecnologiaPersistencePort.existsById(1L)).thenReturn(Mono.just(true));
+        when(tecnologiaPersistencePort.deleteById(1L)).thenReturn(Mono.empty());
+
+        StepVerifier.create(tecnologiaUseCase.eliminarTecnologia(1L, "msg-10"))
+                .verifyComplete();
+
+        verify(tecnologiaPersistencePort, times(1)).deleteById(1L);
     }
 }

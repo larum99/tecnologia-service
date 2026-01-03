@@ -1,5 +1,6 @@
 package com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.entity;
 
+import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.util.EntityConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table(name = "capacidad_tecnologias")
+@Table(name = EntityConstants.TABLE_CAPACIDAD_TECNOLOGIAS)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,9 +19,9 @@ public class CapacidadTecnologiaEntity {
     @Id
     private Long id;
 
-    @Column("id_capacidad")
+    @Column(EntityConstants.COLUMN_ID_CAPACIDAD)
     private Long capacidadId;
 
-    @Column("id_tecnologia")
+    @Column(EntityConstants.COLUMN_ID_TECNOLOGIA)
     private Long tecnologiaId;
 }

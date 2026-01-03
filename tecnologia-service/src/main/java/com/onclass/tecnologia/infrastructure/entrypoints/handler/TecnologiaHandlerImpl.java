@@ -9,6 +9,7 @@ import com.onclass.tecnologia.infrastructure.entrypoints.mapper.TecnologiaMapper
 import com.onclass.tecnologia.infrastructure.entrypoints.util.APIResponse;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.Constants;
 import com.onclass.tecnologia.infrastructure.entrypoints.util.ErrorDTO;
+import com.onclass.tecnologia.infrastructure.entrypoints.util.HandlerConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,24 +44,33 @@ public class TecnologiaHandlerImpl {
         return request.bodyToMono(TecnologiaDTO.class)
                 .flatMap(dto -> tecnologiaServicePort
                         .registrarTecnologia(tecnologiaMapper.toModel(dto), messageId)
-                        .doOnSuccess(saved -> log.info("Tecnología creada con messageId: {}", messageId))
+                        .doOnSuccess(saved -> log.info(HandlerConstants.LOG_TECNOLOGIA_CREATED, messageId))
                 )
-                .flatMap(saved -> ServerResponse
-                        .status(HttpStatus.CREATED)
-                        .bodyValue(TechnicalMessage.TECNOLOGIA_CREATED.getDescription()))
+                .flatMap(saved -> {
+                    APIResponse successResponse = APIResponse.builder()
+                            .code(TechnicalMessage.TECNOLOGIA_CREATED.getCode())
+                            .message(TechnicalMessage.TECNOLOGIA_CREATED.getDescription())
+                            .identifier(messageId)
+                            .date(Instant.now().toString())
+                            .data(tecnologiaMapper.toDTO(saved))
+                            .build();
+                    return ServerResponse
+                            .status(HttpStatus.CREATED)
+                            .bodyValue(successResponse);
+                })
                 .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
-                .doOnError(ex -> log.error(Constants.TECNOLOGIA_ERROR, ex))
+                .doOnError(ex -> log.error(HandlerConstants.TECNOLOGIA_ERROR, ex))
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));
     }
 
     public Mono<ServerResponse> deleteTecnologia(ServerRequest request) {
         String messageId = getMessageId(request);
-        Long tecnologiaId = Long.valueOf(request.pathVariable("id"));
+        Long tecnologiaId = Long.valueOf(request.pathVariable(HandlerConstants.PATH_VARIABLE_ID));
 
         return tecnologiaServicePort.eliminarTecnologia(tecnologiaId, messageId)
                 .then(ServerResponse.noContent().build())
                 .contextWrite(Context.of(Constants.X_MESSAGE_ID, messageId))
-                .doOnError(ex -> log.error("Error al eliminar tecnología {}", tecnologiaId, ex))
+                .doOnError(ex -> log.error(HandlerConstants.LOG_ERROR_DELETE_TECNOLOGIA, tecnologiaId, ex))
                 .onErrorResume(ex -> buildErrorResponse(messageId, ex));
     }
 
@@ -90,7 +100,7 @@ public class TecnologiaHandlerImpl {
     }
 
     private String getMessageId(ServerRequest serverRequest) {
-        return Optional.ofNullable(serverRequest.headers().firstHeader(Constants.X_MESSAGE_ID))
+        return Optional.ofNullable(serverRequest.headers().firstHeader(HandlerConstants.HEADER_X_MESSAGE_ID))
                 .orElse(UUID.randomUUID().toString());
     }
 }

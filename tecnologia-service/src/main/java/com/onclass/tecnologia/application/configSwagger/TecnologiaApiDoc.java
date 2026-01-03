@@ -19,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 @RouterOperation(
         path = ApiConstants.PATH_TECNOLOGIAS,
         beanClass = TecnologiaHandlerImpl.class,
-        beanMethod = "createTecnologia",
+        beanMethod = ApiConstants.BEAN_METHOD_CREATE_TECNOLOGIA,
         operation = @Operation(
                 operationId = ApiConstants.CREATE_TECNOLOGIA_OPERATION_ID,
                 summary = ApiConstants.CREATE_TECNOLOGIA_SUMMARY,
@@ -29,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
                                 in = ParameterIn.HEADER,
                                 description = ApiConstants.HEADER_X_MESSAGE_ID_DESC,
                                 required = true,
-                                schema = @Schema(type = "string")
+                                schema = @Schema(type = ApiConstants.SCHEMA_TYPE_STRING)
                         )
                 },
                 requestBody = @RequestBody(
@@ -39,7 +39,7 @@ import java.lang.annotation.RetentionPolicy;
                                 schema = @Schema(implementation = TecnologiaDTO.class),
                                 examples = {
                                         @ExampleObject(
-                                                name = "Ejemplo Tecnologia",
+                                                name = ApiConstants.EXAMPLE_NAME_TECNOLOGIA,
                                                 value = ApiExamples.TECNOLOGIA_DTO_JSON
                                         )
                                 }

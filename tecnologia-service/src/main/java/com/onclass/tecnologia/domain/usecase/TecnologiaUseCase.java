@@ -20,6 +20,19 @@ public class TecnologiaUseCase implements TecnologiaServicePort {
 
     @Override
     public Mono<Tecnologia> registrarTecnologia(Tecnologia tecnologia, String messageId) {
+        return validarTecnologia(tecnologia)
+                .then(verificarTecnologiaNoExiste(tecnologia.nombre()))
+                .then(tecnologiaPersistencePort.saveTecnologia(tecnologia));
+    }
+
+    @Override
+    public Mono<Void> eliminarTecnologia(Long tecnologiaId, String messageId) {
+        return validarTecnologiaId(tecnologiaId)
+                .then(verificarTecnologiaExiste(tecnologiaId))
+                .then(tecnologiaPersistencePort.deleteById(tecnologiaId));
+    }
+
+    private Mono<Void> validarTecnologia(Tecnologia tecnologia) {
         if (tecnologia.nombre() == null || tecnologia.nombre().isBlank()) {
             return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_NOMBRE_REQUIRED));
         }
@@ -32,25 +45,27 @@ public class TecnologiaUseCase implements TecnologiaServicePort {
         if (tecnologia.descripcion().length() > Constants.MAX_DESCRIPCION_TECNOLOGIA) {
             return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_DESCRIPCION_TOO_LONG));
         }
-
-        return tecnologiaPersistencePort.existByNombre(tecnologia.nombre())
-                .flatMap(exists -> {
-                    if (exists) {
-                        return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_ALREADY_EXISTS));
-                    }
-                    return tecnologiaPersistencePort.saveTecnologia(tecnologia);
-                });
+        return Mono.empty();
     }
 
-    @Override
-    public Mono<Void> eliminarTecnologia(Long tecnologiaId, String messageId) {
+    private Mono<Void> verificarTecnologiaNoExiste(String nombre) {
+        return tecnologiaPersistencePort.existByNombre(nombre)
+                .flatMap(exists -> exists 
+                    ? Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_ALREADY_EXISTS))
+                    : Mono.empty());
+    }
+
+    private Mono<Void> validarTecnologiaId(Long tecnologiaId) {
         if (tecnologiaId == null || tecnologiaId <= 0) {
             return Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_ID_INVALID));
         }
+        return Mono.empty();
+    }
 
+    private Mono<Void> verificarTecnologiaExiste(Long tecnologiaId) {
         return tecnologiaPersistencePort.existsById(tecnologiaId)
-                .switchIfEmpty(Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_NOT_FOUND)))
-                .flatMap(tecnologia -> tecnologiaPersistencePort.deleteById(tecnologiaId))
-                .then();
+                .flatMap(exists -> exists 
+                    ? Mono.empty() 
+                    : Mono.error(new BusinessException(TechnicalMessage.TECNOLOGIA_NOT_FOUND)));
     }
 }

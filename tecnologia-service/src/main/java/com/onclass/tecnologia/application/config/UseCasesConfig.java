@@ -34,7 +34,7 @@ public class UseCasesConfig {
     public CapacidadTecnologiaPersistencePort capacidadTecnologiaPersistencePort(
             CapacidadTecnologiaRepository repository,
             CapacidadTecnologiaEntityMapper capacidadMapper,
-            TecnologiaEntityMapper tecnologiaMapper // <-- agregar
+            TecnologiaEntityMapper tecnologiaMapper
     ) {
         return new CapacidadTecnologiaPersistenceAdapter(repository, capacidadMapper, tecnologiaMapper);
     }

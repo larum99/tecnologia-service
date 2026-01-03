@@ -12,13 +12,13 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 @RouterOperation(
-        path = ApiConstants.PATH_CAPACIDAD_TECNOLOGIA + "/count/by-tecnologia/{tecnologiaId}",
+        path = ApiConstants.PATH_CAPACIDAD_TECNOLOGIA + ApiConstants.PATH_COUNT_BY_TECNOLOGIA,
         beanClass = CapacidadTecnologiaHandlerImpl.class,
-        beanMethod = "countCapacidadesByTecnologiaId",
+        beanMethod = ApiConstants.BEAN_METHOD_COUNT_CAPACIDADES_BY_TECNOLOGIA,
         operation = @Operation(
-                operationId = "countCapacidadesByTecnologiaId",
-                summary = "Contar capacidades asociadas a una tecnología",
-                description = "Obtiene el número de capacidades relacionadas con una tecnología específica.",
+                operationId = ApiConstants.COUNT_CAPACIDADES_BY_TECNOLOGIA_OPERATION_ID,
+                summary = ApiConstants.COUNT_CAPACIDADES_BY_TECNOLOGIA_SUMMARY,
+                description = ApiConstants.COUNT_CAPACIDADES_BY_TECNOLOGIA_DESCRIPTION,
                 parameters = {
                         @Parameter(
                                 name = ApiConstants.HEADER_X_MESSAGE_ID,
@@ -27,16 +27,16 @@ import java.lang.annotation.RetentionPolicy;
                                 description = ApiConstants.HEADER_X_MESSAGE_ID_DESC
                         ),
                         @Parameter(
-                                name = "tecnologiaId",
+                                name = ApiConstants.PARAM_TECNOLOGIA_ID,
                                 in = ParameterIn.PATH,
                                 required = true,
-                                description = "ID de la tecnología"
+                                description = ApiConstants.PARAM_TECNOLOGIA_ID_DESC
                         )
                 },
                 responses = {
-                        @ApiResponse(responseCode = ApiConstants.HTTP_OK, description = "Conteo devuelto correctamente."),
-                        @ApiResponse(responseCode = ApiConstants.HTTP_BAD_REQUEST, description = "Solicitud inválida."),
-                        @ApiResponse(responseCode = ApiConstants.HTTP_INTERNAL_ERROR, description = "Error interno del servidor.")
+                        @ApiResponse(responseCode = ApiConstants.HTTP_OK, description = ApiConstants.RESPONSE_COUNT_200),
+                        @ApiResponse(responseCode = ApiConstants.HTTP_BAD_REQUEST, description = ApiConstants.RESPONSE_COUNT_400),
+                        @ApiResponse(responseCode = ApiConstants.HTTP_INTERNAL_ERROR, description = ApiConstants.RESPONSE_COUNT_500)
                 }
         )
 )

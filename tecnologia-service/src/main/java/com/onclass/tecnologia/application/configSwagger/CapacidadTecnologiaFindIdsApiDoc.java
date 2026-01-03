@@ -16,13 +16,13 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 @RouterOperation(
-        path = ApiConstants.PATH_CAPACIDAD_TECNOLOGIA + "/tecnologias/by-capacidades",
+        path = ApiConstants.PATH_CAPACIDAD_TECNOLOGIA + ApiConstants.PATH_TECNOLOGIAS_BY_CAPACIDADES,
         beanClass = CapacidadTecnologiaHandlerImpl.class,
-        beanMethod = "findTecnologiasIdsByCapacidades",
+        beanMethod = ApiConstants.BEAN_METHOD_FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES,
         operation = @Operation(
-                operationId = "findTecnologiasIdsByCapacidades",
-                summary = "Obtener IDs de tecnologías por capacidades",
-                description = "Retorna los IDs de tecnologías asociados a una lista de capacidades.",
+                operationId = ApiConstants.FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_OPERATION_ID,
+                summary = ApiConstants.FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_SUMMARY,
+                description = ApiConstants.FIND_TECNOLOGIAS_IDS_BY_CAPACIDADES_DESCRIPTION,
                 parameters = {
                         @Parameter(
                                 name = ApiConstants.HEADER_X_MESSAGE_ID,
@@ -32,22 +32,22 @@ import java.lang.annotation.RetentionPolicy;
                         )
                 },
                 requestBody = @RequestBody(
-                        description = "Lista de IDs de capacidades.",
+                        description = ApiConstants.REQUEST_BODY_FIND_IDS_CAPACIDADES_DESCRIPTION,
                         required = true,
                         content = @Content(
                                 schema = @Schema(implementation = Long.class),
                                 examples = {
                                         @ExampleObject(
-                                                name = "Ejemplo IDs capacidades",
-                                                value = "[1, 2, 3]"
+                                                name = ApiConstants.EXAMPLE_NAME_IDS_CAPACIDADES,
+                                                value = ApiExamples.IDS_CAPACIDADES_JSON
                                         )
                                 }
                         )
                 ),
                 responses = {
-                        @ApiResponse(responseCode = ApiConstants.HTTP_OK, description = "Lista de IDs de tecnologías retornada correctamente."),
-                        @ApiResponse(responseCode = ApiConstants.HTTP_BAD_REQUEST, description = "Solicitud inválida."),
-                        @ApiResponse(responseCode = ApiConstants.HTTP_INTERNAL_ERROR, description = "Error interno del servidor.")
+                        @ApiResponse(responseCode = ApiConstants.HTTP_OK, description = ApiConstants.RESPONSE_FIND_200),
+                        @ApiResponse(responseCode = ApiConstants.HTTP_BAD_REQUEST, description = ApiConstants.RESPONSE_FIND_400),
+                        @ApiResponse(responseCode = ApiConstants.HTTP_INTERNAL_ERROR, description = ApiConstants.RESPONSE_FIND_500)
                 }
         )
 )

@@ -1,6 +1,7 @@
 package com.onclass.tecnologia.domain.usecase;
 
 import com.onclass.tecnologia.domain.model.CapacidadTecnologia;
+import com.onclass.tecnologia.domain.model.Tecnologia;
 import com.onclass.tecnologia.domain.spi.CapacidadTecnologiaPersistencePort;
 import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaSummaryDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,14 +56,15 @@ class CapacidadTecnologiaUseCaseTest {
     @Test
     void listarTecnologiasPorCapacidad_shouldReturnTecnologias() {
         Long capacidadId = 1L;
-        TecnologiaSummaryDTO t1 = new TecnologiaSummaryDTO(1L, "Java");
-        TecnologiaSummaryDTO t2 = new TecnologiaSummaryDTO(2L, "Spring");
+        Tecnologia t1 = new Tecnologia(1L, "Java", "Descripcion Java");
+        Tecnologia t2 = new Tecnologia(2L, "Spring", "Descripcion Spring");
 
         when(persistencePort.findTecnologiasByCapacidadId(capacidadId))
                 .thenReturn(Flux.just(t1, t2));
 
         StepVerifier.create(useCase.listarTecnologiasPorCapacidad(capacidadId))
-                .expectNext(t1, t2)
+                .expectNextMatches(dto -> dto.id().equals(1L) && dto.nombre().equals("Java"))
+                .expectNextMatches(dto -> dto.id().equals(2L) && dto.nombre().equals("Spring"))
                 .verifyComplete();
 
         verify(persistencePort).findTecnologiasByCapacidadId(capacidadId);
@@ -79,5 +81,73 @@ class CapacidadTecnologiaUseCaseTest {
                 .verifyComplete();
 
         verify(persistencePort).findTecnologiasByCapacidadId(capacidadId);
+    }
+
+    @Test
+    void deleteTecnologiasByCapacidades_shouldDeleteRelaciones() {
+        List<Long> capacidadIds = List.of(1L, 2L, 3L);
+
+        when(persistencePort.deleteByCapacidadIds(capacidadIds))
+                .thenReturn(Mono.empty());
+
+        StepVerifier.create(useCase.deleteTecnologiasByCapacidades(capacidadIds))
+                .verifyComplete();
+
+        verify(persistencePort).deleteByCapacidadIds(capacidadIds);
+    }
+
+    @Test
+    void findTecnologiaIdsByCapacidades_shouldReturnTecnologiaIds() {
+        List<Long> capacidadIds = List.of(1L, 2L);
+        
+        when(persistencePort.findTecnologiaIdsByCapacidades(capacidadIds))
+                .thenReturn(Flux.just(1L, 2L, 3L));
+
+        StepVerifier.create(useCase.findTecnologiaIdsByCapacidades(capacidadIds))
+                .expectNext(1L, 2L, 3L)
+                .verifyComplete();
+
+        verify(persistencePort).findTecnologiaIdsByCapacidades(capacidadIds);
+    }
+
+    @Test
+    void findTecnologiaIdsByCapacidades_shouldReturnEmptyFluxIfNone() {
+        List<Long> capacidadIds = List.of(99L);
+        
+        when(persistencePort.findTecnologiaIdsByCapacidades(capacidadIds))
+                .thenReturn(Flux.empty());
+
+        StepVerifier.create(useCase.findTecnologiaIdsByCapacidades(capacidadIds))
+                .verifyComplete();
+
+        verify(persistencePort).findTecnologiaIdsByCapacidades(capacidadIds);
+    }
+
+    @Test
+    void countCapacidadesByTecnologiaId_shouldReturnCount() {
+        Long tecnologiaId = 1L;
+        
+        when(persistencePort.countCapacidadesByTecnologiaId(tecnologiaId))
+                .thenReturn(Mono.just(5L));
+
+        StepVerifier.create(useCase.countCapacidadesByTecnologiaId(tecnologiaId))
+                .expectNext(5L)
+                .verifyComplete();
+
+        verify(persistencePort).countCapacidadesByTecnologiaId(tecnologiaId);
+    }
+
+    @Test
+    void countCapacidadesByTecnologiaId_shouldReturnZeroIfNone() {
+        Long tecnologiaId = 99L;
+        
+        when(persistencePort.countCapacidadesByTecnologiaId(tecnologiaId))
+                .thenReturn(Mono.just(0L));
+
+        StepVerifier.create(useCase.countCapacidadesByTecnologiaId(tecnologiaId))
+                .expectNext(0L)
+                .verifyComplete();
+
+        verify(persistencePort).countCapacidadesByTecnologiaId(tecnologiaId);
     }
 }

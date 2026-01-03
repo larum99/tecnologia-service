@@ -2,6 +2,7 @@ package com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.reposi
 
 import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.entity.CapacidadTecnologiaEntity;
 import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.entity.TecnologiaEntity;
+import com.onclass.tecnologia.infrastructure.adapters.persistenceadapter.util.RepositoryConstants;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -17,30 +18,17 @@ public interface CapacidadTecnologiaRepository extends ReactiveCrudRepository<Ca
     Flux<CapacidadTecnologiaEntity> findByCapacidadId(Long capacidadId);
     Mono<Long> countByCapacidadId(Long capacidadId);
 
-    @Query("""
-        SELECT t.id, t.nombre, t.descripcion
-        FROM capacidad_tecnologias ct
-        JOIN tecnologias t ON ct.id_tecnologia = t.id
-        WHERE ct.id_capacidad = :capacidadId
-    """)
+    @Query(RepositoryConstants.QUERY_FIND_TECNOLOGIAS_BY_CAPACIDAD_ID)
     Flux<TecnologiaEntity> findTecnologiasByCapacidadId(Long capacidadId);
 
     @Modifying
-    @Query("DELETE FROM capacidad_tecnologias WHERE id_capacidad IN (:capacidadIds)")
+    @Query(RepositoryConstants.QUERY_DELETE_BY_CAPACIDAD_IDS)
     Mono<Void> deleteByCapacidadIds(List<Long> capacidadIds);
 
-    @Query("""
-        SELECT DISTINCT id_tecnologia
-        FROM capacidad_tecnologias
-        WHERE id_capacidad IN (:capacidadIds)
-    """)
+    @Query(RepositoryConstants.QUERY_FIND_TECNOLOGIA_IDS_BY_CAPACIDADES)
     Flux<Long> findTecnologiaIdsByCapacidades(List<Long> capacidadIds);
 
-    @Query("""
-        SELECT COUNT(*) 
-        FROM capacidad_tecnologias 
-        WHERE id_tecnologia = :tecnologiaId
-    """)
+    @Query(RepositoryConstants.QUERY_COUNT_CAPACIDADES_BY_TECNOLOGIA_ID)
     Mono<Long> countCapacidadesByTecnologiaId(Long tecnologiaId);
 }
 
