@@ -100,5 +100,3 @@ resilience4j:
 springdoc:
   api-docs:
     enabled: true
-  swagger-ui:
-    path: /webjars/swagger-ui/index.html
