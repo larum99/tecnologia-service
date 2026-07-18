@@ -1,15 +1,16 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
-  webflux:
-    base-path: /tecnologia-service
+  sql:
+    init:
+      mode: always
   application:
     name: tecnologia-service
   r2dbc:
     url: r2dbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:tecnologia}
     username: ${DB_USER:root}
-    password: ${DB_PASSWORD:Pragma08679}
+    password: ${DB_PASSWORD:Laura08679}
   main:
     web-application-type: reactive
 
@@ -100,4 +101,4 @@ springdoc:
   api-docs:
     enabled: true
   swagger-ui:
-    path: /swagger-ui.html
+    path: /webjars/swagger-ui/index.html

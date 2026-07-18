@@ -4,8 +4,8 @@ public final class ApiConstants {
     private ApiConstants() {}
 
     // Rutas
-    public static final String PATH_TECNOLOGIAS = "/tecnologias";
-    public static final String PATH_CAPACIDAD_TECNOLOGIA = "/capacidad-tecnologias";
+    public static final String PATH_TECNOLOGIAS = "/tecnologia-service/tecnologias";
+    public static final String PATH_CAPACIDAD_TECNOLOGIA = "/tecnologia-service/capacidad-tecnologias";
 
     // Headers
     public static final String HEADER_X_MESSAGE_ID = "x-message-id";

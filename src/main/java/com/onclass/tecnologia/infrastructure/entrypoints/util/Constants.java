@@ -6,8 +6,8 @@ import lombok.experimental.UtilityClass;
 public class Constants {
     public static final String X_MESSAGE_ID = "x-message-id";
     public static final String TECNOLOGIA_ERROR = "Error en Tecnología - [ERROR]";
-    public static final String TECNOLOGIA_PATH = "/tecnologias";
-    public static final String CAPACIDAD_TECNOLOGIA_PATH = "/capacidad-tecnologias";
+    public static final String TECNOLOGIA_PATH = "/tecnologia-service/tecnologias";
+    public static final String CAPACIDAD_TECNOLOGIA_PATH = "/tecnologia-service/capacidad-tecnologias";
     
     // Route path segments
     public static final String PATH_CAPACIDAD_TECNOLOGIAS = "/{capacidadId}/tecnologias";
