@@ -10,7 +10,7 @@
 
 Microservicio de gestion de tecnologias para la plataforma **Bootcamp**. Permite crear, eliminar y consultar tecnologias, asi como gestionar la asociacion entre capacidades y tecnologias.
 
-**Puerto:** `8081`
+**Puerto:** `8080`
 **Base Path:** `/tecnologia-service`
 
 ## Stack Tecnologico
@@ -195,9 +195,9 @@ Todos los endpoints requieren el header `x-message-id` para trazabilidad.
 ## Actuator
 
 ```
-http://localhost:8081/tecnologia-service/actuator/health
-http://localhost:8081/tecnologia-service/actuator/metrics
-http://localhost:8081/tecnologia-service/actuator/loggers
+http://localhost:8080/tecnologia-service/actuator/health
+http://localhost:8080/tecnologia-service/actuator/metrics
+http://localhost:8080/tecnologia-service/actuator/loggers
 ```
 
 ## Ejecutar el Proyecto
@@ -227,13 +227,13 @@ CREATE DATABASE IF NOT EXISTS tecnologia;
 
 Las tablas se crean automaticamente al iniciar la app (via `schema.sql`).
 
-La aplicacion estara disponible en `http://localhost:8081`
+La aplicacion estara disponible en `http://localhost:8080`
 
 ## Documentacion API (Swagger)
 
 ```
-http://localhost:8081/webjars/swagger-ui/index.html
-http://localhost:8081/v3/api-docs
+http://localhost:8080/webjars/swagger-ui/index.html
+http://localhost:8080/v3/api-docs
 ```
 
 ## Ejecutar Tests
