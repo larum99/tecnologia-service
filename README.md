@@ -10,7 +10,7 @@
 
 Microservicio de gestion de tecnologias para la plataforma **Bootcamp**. Permite crear, eliminar y consultar tecnologias, asi como gestionar la asociacion entre capacidades y tecnologias.
 
-**Puerto:** `8080`
+**Puerto:** `8081`
 **Base Path:** `/tecnologia-service`
 
 ## Stack Tecnologico
@@ -195,9 +195,9 @@ Todos los endpoints requieren el header `x-message-id` para trazabilidad.
 ## Actuator
 
 ```
-/tecnologia-service/actuator/health
-/tecnologia-service/actuator/metrics
-/tecnologia-service/actuator/loggers
+http://localhost:8081/tecnologia-service/actuator/health
+http://localhost:8081/tecnologia-service/actuator/metrics
+http://localhost:8081/tecnologia-service/actuator/loggers
 ```
 
 ## Ejecutar el Proyecto
@@ -207,15 +207,33 @@ cd tecnologia-service
 ./gradlew bootRun
 ```
 
-La aplicacion estara disponible en `http://localhost:8080`
+> **Requisito:** MySQL debe estar ejecutandose en `localhost:3306`
 
-> **Requisito:** MySQL debe estar ejecutandose en `localhost:3306` con la base de datos `tecnologia`
+### 1. Crear la base de datos
+
+Ejecuta en MySQL el script `init.sql`:
+
+```bash
+mysql -u root -p < src/main/resources/init.sql
+```
+
+o ejecuta manualmente:
+
+```sql
+CREATE DATABASE IF NOT EXISTS tecnologia;
+```
+
+### 2. Iniciar la aplicacion
+
+Las tablas se crean automaticamente al iniciar la app (via `schema.sql`).
+
+La aplicacion estara disponible en `http://localhost:8081`
 
 ## Documentacion API (Swagger)
 
 ```
-http://localhost:8080/swagger-ui.html
-http://localhost:8080/v3/api-docs
+http://localhost:8081/webjars/swagger-ui/index.html
+http://localhost:8081/v3/api-docs
 ```
 
 ## Ejecutar Tests
